@@ -13,17 +13,21 @@
 
 use std::env;
 use std::io::{self, BufRead};
+use std::process::exit;
 
 fn main() {
     const DBG: bool = false;
 
-    let prefix = env::args().nth(1).unwrap();
+    let prefix = env::args().nth(1).unwrap_or_else(|| {
+        eprintln!("Usage: rmprefix <prefix>");
+        exit(1)
+    });
     let prefix_chars: Vec<char> = prefix.chars().collect();
     let prefix_len = prefix_chars.len();
     let stdin = io::stdin();
-    let mut handle = stdin.lock();
-    'for0: for lineRes in handle.lines() {
-        let mut line = lineRes.unwrap();
+    let handle = stdin.lock();
+    'for0: for line_res in handle.lines() {
+        let line = line_res.unwrap();
         let mut empty_line = true;
         'for1: for (i, char) in line.chars().enumerate() {
             empty_line = false;
@@ -42,7 +46,8 @@ fn main() {
         if empty_line {
             println!()
         } else {
-            let stripped = line.get(prefix_len..).unwrap();
+            // The line might be a prefix of the "prefix", so we shouldn't panic here
+            let stripped = line.get(prefix_len..).unwrap_or("");
             println!("{}", stripped);
         }
     }
