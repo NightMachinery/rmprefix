@@ -22,13 +22,21 @@ fn to_nul(sep: &mut String) {
     }
 }
 
+fn output_record(record: &str, sep: &str, skip_empty: bool) {
+    if record.is_empty() && skip_empty {
+        return;
+    }
+    print!("{}{}", record, sep)
+}
+
 fn main() {
     const DBG: bool = false;
 
     let prefix = env::args().nth(1).unwrap_or(String::from("--help"));
     if &prefix == "-h" || &prefix == "--help" {
         // eprintln!("rmprefix removes the given prefix from its input if present. The input is split using the given separator.\nUsage: rmprefix <prefix> [<separator>=\\n] [<output-separator>=\\n]\nSet the separators to \\x00 for the NUL character.");
-        eprintln!(r###"
+        eprintln!(
+            r###"
 # Usage
 
 `rmprefix` removes the given prefix from its input if present. The input is split using the given separator, by default newlines.
@@ -75,11 +83,13 @@ echo "Butterflies are insects in the macrolepidopteran clade Rhopalocera from th
 ```
 cargo install --git https://github.com/NightMachinary/rmprefix
 ```
-        "###);
+        "###
+        );
         exit(1)
     }
     let mut sep = env::args().nth(2).unwrap_or(String::from("\n"));
     let mut out_sep = env::args().nth(3).unwrap_or(String::from("\n"));
+    let skip_empty = false;
     to_nul(&mut sep);
     to_nul(&mut out_sep);
 
@@ -88,28 +98,31 @@ cargo install --git https://github.com/NightMachinary/rmprefix
     let stdin = io::stdin();
     let mut handle = stdin.lock();
     let mut s = String::new();
-    handle.read_to_string(&mut s).expect("Couldn't read from stdin.");
-    let lines:Vec<&str> = s.split(&sep).collect();
+    handle
+        .read_to_string(&mut s)
+        .expect("Couldn't read from stdin.");
+    let lines: Vec<&str> = s.split(&sep).collect();
     let lines_len = lines.len();
 
     'for0: for (ln, line_res) in lines.iter().enumerate() {
-        if ln == (lines_len-1) {
+        if ln == (lines_len - 1) {
             out_sep = "".to_string()
         }
         let line = line_res;
         if line.len() < prefix_len {
-            print!("{}{}", line, out_sep);
-        }
-        else {
+            output_record(line, &out_sep, skip_empty);
+        } else {
             let mut empty_line = true;
             'for1: for (i, char) in line.chars().enumerate() {
                 empty_line = false;
                 if let Some(&c) = prefix_chars.get(i) {
                     if c == char {
-                        if DBG { println!("c==char={}", c); }
+                        if DBG {
+                            println!("c==char={}", c);
+                        }
                         continue 'for1;
                     } else {
-                        print!("{}{}", line, out_sep);
+                        output_record(line, &out_sep, skip_empty);
                         continue 'for0;
                     }
                 } else {
@@ -117,13 +130,12 @@ cargo install --git https://github.com/NightMachinary/rmprefix
                 }
             }
             if empty_line {
-                print!("{}", out_sep)
+                output_record(line, &out_sep, skip_empty);
             } else {
                 let stripped = line.get(prefix_len..).unwrap();
-                print!("{}{}", stripped, out_sep);
+                output_record(stripped, &out_sep, skip_empty);
             }
         }
-
     }
 
     // handle.lines().map(|line| line.unwrap());
