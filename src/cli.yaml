@@ -1,0 +1,25 @@
+name: rmprefix
+version: "0.1"
+author: Fereidoon Mehri
+about: Removes the given prefix from its input.
+args:
+    - input-separator:
+        short: i
+        long: input-separator
+        value_name: DELIMITER
+        help: Stdin will be split using this delimiter.
+        takes_value: true
+    - output-separator:
+        short: o
+        long: output-separator
+        value_name: DELIMITER
+        help: The output will be joined using this delimiter.
+        takes_value: true
+    - skip-empty:
+        help: Whether to skip empty records in the output.
+        required: true
+        index: 1
+    - verbose:
+        short: v
+        multiple: true
+        help: Sets the level of verbosity
