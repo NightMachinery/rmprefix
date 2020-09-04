@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use https://github.com/NightMachinary/prefixer instead. I'll continue to support bugfixes for `rmprefix`, as it's a very lightweight command and I still use it in my  scripts, but `prefixer` is better in virtually every way.
+
 # Usage
 
 `rmprefix` removes the given prefix from its input if present. The input is split using the given separator, by default newlines.
