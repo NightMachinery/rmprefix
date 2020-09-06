@@ -48,3 +48,7 @@ echo "Butterflies are insects in the macrolepidopteran clade Rhopalocera from th
 ```
 cargo install --git https://github.com/NightMachinary/rmprefix
 ```
+
+# Licenses
+
+Dual-licensed under MIT and GPL v3 or later.
