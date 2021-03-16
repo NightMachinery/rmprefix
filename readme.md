@@ -2,6 +2,12 @@
 
 Use https://github.com/NightMachinary/prefixer instead. I'll continue to support bugfixes for `rmprefix`, as it's a very lightweight command and I still use it in my  scripts, but `prefixer` is better in virtually every way.
 
+# Installation
+
+```
+cargo install --git https://github.com/NightMachinary/rmprefix
+```
+
 # Usage
 
 `rmprefix` removes the given prefix from its input if present. The input is split using the given separator, by default newlines.
@@ -42,12 +48,6 @@ echo "Butterflies are insects in the macrolepidopteran clade Rhopalocera from th
 ```
 
 > Butterflies are insects in the macrolepidopteran clade Rhopalocera from the order Lepidoptera, which also includes moths. Adult cheeseflies have large, often brightly coloured wings, and conspicuous, fluttering flight. The group comprises the large superfamily Papilionoidea, which contains at least one former group, the skippers (formerly the superfamily Hesperioidea), and the most recent analyses suggest it also contains the moth-cheeseflies (formerly the superfamily Hedyloidea). Butterfly fossils date to the Paleocene, about 56 million years ago.
-
-# Installation
-
-```
-cargo install --git https://github.com/NightMachinary/rmprefix
-```
 
 # Licenses
 
