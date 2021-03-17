@@ -5,7 +5,7 @@ Use https://github.com/NightMachinary/prefixer instead. I'll continue to support
 # Installation
 
 ```
-cargo install --git https://github.com/NightMachinary/rmprefix
+cargo install --git https://github.com/NightMachinary/rmprefix --force
 ```
 
 # Usage
